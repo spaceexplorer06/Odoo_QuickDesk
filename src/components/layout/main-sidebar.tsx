@@ -19,12 +19,18 @@ import {
   LogIn,
   LogOut,
   UserPlus,
-  LifeBuoy
+  LifeBuoy,
+  Settings,
 } from 'lucide-react';
 import type { User } from '@/lib/types';
 
 // In a real app this would come from an auth context
-const currentUser: User | null = null;
+const currentUser: User | null = {
+  id: 'usr_1',
+  name: 'John Doe',
+  avatar: 'https://placehold.co/100x100.png',
+  role: 'agent',
+};
 
 export default function MainSidebar() {
   const pathname = usePathname();
@@ -78,12 +84,24 @@ export default function MainSidebar() {
                 <span className="text-xs text-muted-foreground capitalize">{currentUser.role}</span>
               </div>
             </div>
-            <Link href="/login" passHref legacyBehavior>
-              <SidebarMenuButton tooltip="Logout">
-                <LogOut />
-                <span className="group-data-[collapsible=icon]:hidden">Logout</span>
-              </SidebarMenuButton>
-            </Link>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <Link href="/settings" passHref legacyBehavior>
+                        <SidebarMenuButton isActive={isActive('/settings')} tooltip="Settings">
+                            <Settings />
+                            <span className="group-data-[collapsible=icon]:hidden">Settings</span>
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                    <Link href="/login" passHref legacyBehavior>
+                      <SidebarMenuButton tooltip="Logout">
+                        <LogOut />
+                        <span className="group-data-[collapsible=icon]:hidden">Logout</span>
+                      </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
+            </SidebarMenu>
           </div>
         ) : (
           <SidebarMenu>
