@@ -41,9 +41,9 @@ export default function MainSidebar() {
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/" passHref legacyBehavior>
+            <Link href="/dashboard" passHref legacyBehavior>
               <SidebarMenuButton
-                isActive={isActive('/')}
+                isActive={isActive('/dashboard')}
                 tooltip="Dashboard"
               >
                 <Home />

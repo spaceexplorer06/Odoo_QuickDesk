@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -8,6 +9,15 @@ import { Button } from '@/components/ui/button';
 import { LifeBuoy } from 'lucide-react';
 
 export function LoginForm() {
+  const router = useRouter();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // In a real app, you'd handle form submission here
+    console.log('Login form submitted');
+    router.push('/dashboard');
+  };
+
   return (
     <Card className="mx-auto max-w-sm w-full">
       <CardHeader className="text-center">
@@ -19,7 +29,7 @@ export function LoginForm() {
         <CardDescription>Enter your email below to login to your account</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
+        <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" placeholder="m@example.com" required />
@@ -36,7 +46,7 @@ export function LoginForm() {
           <Button type="submit" className="w-full">
             Login
           </Button>
-        </div>
+        </form>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{' '}
           <Link href="/signup" className="underline">
