@@ -14,8 +14,10 @@ import { Search } from 'lucide-react';
 import TicketCard from './ticket-card';
 import type { Ticket, TicketStatus, TicketCategory } from '@/lib/types';
 import Link from 'next/link';
+import { useTickets } from '@/context/ticket-context';
 
-export default function TicketList({ tickets }: { tickets: Ticket[] }) {
+export default function TicketList() {
+  const { tickets } = useTickets();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<TicketStatus | 'All'>('All');
   const [categoryFilter, setCategoryFilter] = useState<TicketCategory | 'All'>('All');
@@ -84,7 +86,7 @@ export default function TicketList({ tickets }: { tickets: Ticket[] }) {
           <TicketCard key={ticket.id} ticket={ticket} />
         ))}
         {filteredTickets.length === 0 && (
-          <p className="col-span-full text-center text-muted-foreground mt-8">No tickets found.</p>
+          <p className="col-span-full text-center text-muted-foreground mt-8">No tickets found. Fill out the new ticket form to see your tickets!</p>
         )}
       </div>
     </div>

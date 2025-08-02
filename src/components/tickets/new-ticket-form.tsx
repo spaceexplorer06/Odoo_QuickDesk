@@ -20,6 +20,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Wand2, Loader2, Upload } from 'lucide-react';
 import type { SuggestTicketCategoryOutput } from '@/ai/flows/suggest-ticket-category';
 import { Badge } from '../ui/badge';
+import { useTickets } from '@/context/ticket-context';
+import { users } from '@/lib/data';
 
 const formSchema = z.object({
   subject: z.string().min(5, { message: 'Subject must be at least 5 characters long.' }),
@@ -35,6 +37,7 @@ export default function NewTicketForm({ suggestCategoryAction }: NewTicketFormPr
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [suggestedCategories, setSuggestedCategories] = useState<string[]>([]);
   const { toast } = useToast();
+  const { addTicket } = useTickets();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,9 +86,22 @@ export default function NewTicketForm({ suggestCategoryAction }: NewTicketFormPr
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    // In a real app, you'd get the current user from your auth system
+    const currentUser = users.find(u => u.role === 'agent')!;
+    
+    addTicket({
+        id: `TKT-${Date.now()}`,
+        ...values,
+        status: 'Open',
+        user: currentUser, // Assuming the agent creates the ticket for a user, or is the user
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        comments: [],
+        category: values.category as any,
+    });
+
     toast({
-      title: 'Ticket Created (Simulated)',
+      title: 'Ticket Created',
       description: 'Your ticket has been successfully submitted.',
     });
     form.reset();
