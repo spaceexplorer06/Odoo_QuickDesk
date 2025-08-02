@@ -23,13 +23,8 @@ import {
 } from 'lucide-react';
 import type { User } from '@/lib/types';
 
-// Mock user, in a real app this would come from an auth context
-const currentUser: User | null = {
-  id: 'agent-1',
-  name: 'Catherine Smith',
-  avatar: 'https://placehold.co/100x100.png',
-  role: 'agent',
-};
+// In a real app this would come from an auth context
+const currentUser: User | null = null;
 
 export default function MainSidebar() {
   const pathname = usePathname();
